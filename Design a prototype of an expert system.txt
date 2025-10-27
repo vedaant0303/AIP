@@ -1,0 +1,38 @@
+EXP 9A
+% Facts about people
+age(john, 25).
+income(john, 40000).
+credit_score(john, 700).
+employment_status(john, employed).
+
+age(alice, 17).
+income(alice, 15000).
+credit_score(alice, 600).
+employment_status(alice, unemployed).
+
+% Rules
+
+% Rule 1: Eligible for loan if age >= 18
+eligible_for_loan(Person) :-
+    age(Person, Age),
+    Age >= 18.
+
+% Rule 2: Eligible for loan if income > 30000
+eligible_for_loan(Person) :-
+    income(Person, Income),
+    Income > 30000.
+
+% Rule 3: Good credit group if credit_score >= 650
+good_credit(Person) :-
+    credit_score(Person, Score),
+    Score >= 650.
+
+% Rule 4: Employment status check
+employed(Person) :-
+    employment_status(Person, employed).
+
+% Composite rule: candidate for loan if meets all criteria
+loan_candidate(Person) :-
+    eligible_for_loan(Person),
+    good_credit(Person),
+    employed(Person).

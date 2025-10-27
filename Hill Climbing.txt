@@ -1,0 +1,21 @@
+EXP 7
+import random
+def fitness(x):
+# Example function: f(x) = -(x-3)^2 + 9 return -(x - 3)**2 + 9
+
+def hill_climb():
+# Start with a random solution current_x = random.uniform(-10, 10) current_value = fitness(current_x)
+print(f"Initial solution: x = {current_x:.2f}, f(x) = {current_value:.2f}")
+
+
+step_size = 0.1
+for i in range(100):
+# Generate a neighbor
+new_x = current_x + random.uniform(-step_size, step_size) new_value = fitness(new_x)
+
+# Move to neighbor if it's better if new_value > current_value:
+current_x, current_value = new_x, new_value
+print(f"Iteration {i+1}: Better solution found → x = {current_x:.2f}, f(x) =
+{current_value:.2f}")
+print("\nFinal best solution:")
+print(f"x = {current_x:.2f}, f(x) = {current_value:.2f}") hill_climb()

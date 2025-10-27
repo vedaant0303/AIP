@@ -1,0 +1,57 @@
+EXP 4
+
+graph = {
+    'Arad': ['Zerind', 'Sibiu', 'Timisoara'],
+    'Zerind': ['Arad', 'Oradea'],
+    'Oradea': ['Zerind', 'Sibiu'],
+    'Sibiu': ['Arad', 'Oradea', 'Fagaras', 'Rimnicu Vilcea'],
+    'Fagaras': ['Sibiu', 'Bucharest'],
+    'Rimnicu Vilcea': ['Sibiu', 'Pitesti', 'Craiova'],
+    'Pitesti': ['Rimnicu Vilcea', 'Craiova', 'Bucharest'],
+    'Timisoara': ['Arad', 'Lugoj'],
+    'Lugoj': ['Timisoara', 'Mehadia'],
+    'Mehadia': ['Lugoj', 'Drobeta'],
+    'Drobeta': ['Mehadia', 'Craiova'],
+    'Craiova': ['Drobeta', 'Rimnicu Vilcea', 'Pitesti'],
+    'Bucharest': ['Fagaras', 'Pitesti', 'Giurgiu', 'Urziceni']
+}
+
+
+def depth_limited_dfs(graph, start, goal, limit, path=None, visited=None):
+    if path is None:
+        path = [start]
+    if visited is None:
+        visited = set()
+
+    if start == goal:
+        return path
+    if limit <= 0:
+        return None
+
+    visited.add(start)
+
+    for neighbor in graph.get(start, []):
+        if neighbor not in visited:
+            result = depth_limited_dfs(graph, neighbor, goal, limit - 1, path + [neighbor], visited.copy())
+            if result is not None:
+                return result
+    return None
+
+
+def iddfs(graph, start, goal, max_depth=50):
+    for depth in range(max_depth):
+        print(f"Searching with depth limit = {depth}")
+        result = depth_limited_dfs(graph, start, goal, depth)
+        if result is not None:
+            return result
+    return None
+
+
+if __name__ == "__main__":
+    start_city = "Arad"
+    goal_city = "Bucharest"
+    path = iddfs(graph, start_city, goal_city)
+    if path:
+        print(f"Path found: {' -> '.join(path)}")
+    else:
+        print("No path found.")

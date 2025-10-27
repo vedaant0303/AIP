@@ -1,0 +1,26 @@
+EXP 8 
+%Facts
+hostile(nono).
+enemy(nono,america).
+
+missile(m1).
+owns(nono,m1).
+
+sold_by(m1,colonel_west).
+
+american(colonel_west).
+%rule
+sell(america,M,N):-
+    missile(M),
+    owns(N,M),
+    hostile(N),
+    sold_by(M,P),
+    american(P).
+
+%law
+crime(P):-
+    sell(america,W,N),
+    hostile(N),
+    sold_by(W,P),
+    american(P).
+

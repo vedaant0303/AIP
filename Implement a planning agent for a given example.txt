@@ -1,0 +1,24 @@
+EXP 9B
+
+ 1. Action (BuyTicket, Train)
+  PRECOND:
+  At(Person, mumbai) ∧ HasTicket(Person, none)`
+  EFFECT:
+ HasTicket(Person, none) ∧ HasTicket(Person, train)`
+
+2. Action(BoardTrain, Mumbai, Train)
+PRECOND:
+ At(Person, mumbai) ∧ HasTicket(Person, train) ∧ ¬OnTrain(Person)`
+EFFECT:
+At(Person, mumbai) ∧ OnTrain(Person)`
+
+3. Action(Travel, Train, Mumbai, Delhi)
+PRECOND:
+OnTrain(Person)`
+EFFECT:
+At(Person, delhi)`
+
+4. Action(GetOffTrain, Delhi, Train)
+PRECON:
+OnTrain(Person) ∧ At(Person, delhi)`
+EFFECT:
