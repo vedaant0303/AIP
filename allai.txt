@@ -1,0 +1,191 @@
+IDDFS 
+# Iterative Deepening Depth-First Search (IDDFS) 
+# Depth-Limited Search (DLS) 
+def dls(graph, start, goal, limit): 
+    print(f"Exploring node {start} with limit {limit}") 
+    if start == goal: 
+        return True 
+    if limit <= 0: 
+        return False 
+ 
+    for neighbor in graph.get(start, []): 
+        if dls(graph, neighbor, goal, limit - 1): 
+            return True 
+    return False 
+ 
+# Iterative Deepening DFS (IDDFS) 
+def iddfs(graph, start, goal, max_depth): 
+    for depth in range(max_depth + 1): 
+        print(f"\nSearching with depth limit: {depth}") 
+        if dls(graph, start, goal, depth): 
+            print(f"\nGoal '{goal}' found at depth {depth}") 
+            return True 
+    print(f"\nGoal '{goal}' not found within depth {max_depth}") 
+    return False 
+# Example graph 
+graph = { 
+    'A': ['B', 'C'], 
+    'B': ['D', 'E'], 
+    'C': ['F'], 
+    'E': ['G'] 
+} 
+ 
+# Run IDDFS 
+start_node = 'A' 
+goal_node = 'G' 
+max_depth = 5 
+ 
+iddfs(graph, start_node, goal_node, max_depth) 
+ 
+
+
+
+
+
+
+ 
+a* 
+from heapq import heappush, heappop 
+ 
+def astar(graph, heuristics, start, goal): 
+    open_list = [] 
+    heappush(open_list, (heuristics[start], 0, start, [start]))  # (f, g, node, path) 
+    closed = set() 
+ 
+    while open_list: 
+        f, g, node, path = heappop(open_list) 
+        if node == goal: 
+            print(f"Goal '{goal}' found with cost {g}") 
+            print("Path:", " → ".join(path)) 
+            return path 
+ 
+        if node in closed: 
+            continue 
+        closed.add(node) 
+ 
+        for neighbor, cost in graph.get(node, []): 
+            if neighbor not in closed: 
+                g_new = g + cost 
+f_new = g_new + heuristics[neighbor] 
+heappush(open_list, (f_new, g_new, neighbor, path + [neighbor])) 
+print("Goal not found") 
+return None 
+# Example graph 
+graph = { 
+'A': [('B', 1), ('C', 3)], 
+'B': [('D', 3), ('E', 1)], 
+'C': [('F', 5)], 
+'E': [('G', 2)], 
+'D': [('G', 5)] 
+} 
+# Heuristic values 
+heuristics = {'A':7, 'B':6, 'C':5, 'D':3, 'E':2, 'F':5, 'G':0} 
+# Run A* 
+astar(graph, heuristics, 'A', 'G') 
+Min max 
+def minimax(depth, nodeIndex, isMax, scores, height): 
+    # base case: reached leaf node 
+    if depth == height: 
+        return scores[nodeIndex] 
+ 
+    if isMax: 
+        return max( 
+            minimax(depth + 1, nodeIndex * 2, False, scores, height), 
+            minimax(depth + 1, nodeIndex * 2 + 1, False, scores, height) 
+        ) 
+    else: 
+        return min( 
+            minimax(depth + 1, nodeIndex * 2, True, scores, height), 
+            minimax(depth + 1, nodeIndex * 2 + 1, True, scores, height) 
+        ) 
+ 
+ 
+# Leaf node values (depth = 2) 
+scores = [3, 5, 2, 9] 
+ 
+import math 
+height = int(math.log2(len(scores)))  # height = 2 
+ 
+# Start from root (depth=0), node index 0, MAX's turn 
+best = minimax(0, 0, True, scores, height) 
+print("The optimal value is:", best) 
+ 
+
+
+
+
+
+
+ 
+ 
+ 
+Hill climbing 
+import random 
+ 
+def f(x):  # objective function 
+    return -(x - 3)**2 + 9 
+ 
+def hill_climb(): 
+    x = random.uniform(0, 6)  # start at a random point 
+    step = 0.1 
+    while True: 
+        neighbors = [x + step, x - step] 
+        next_x = max(neighbors, key=f) 
+        if f(next_x) <= f(x): 
+            break 
+        x = next_x 
+    return x, f(x) 
+ 
+best_x, best_y = hill_climb() 
+print(f"Best solution: x = {best_x:.2f}, f(x) = {best_y:.2f}") 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+9Th exp 
+# Knowledge Base for Loan Approval 
+knowledge_base = { 
+    'rule1': { 
+        'condition': lambda person: person['age'] >= 18, 
+        'result': 'You are eligible for a loan.' 
+    }, 
+    'rule2': { 
+        'condition': lambda person: person['income'] > 30000, 
+        'result': 'You are eligible for a loan.' 
+    }, 
+    'rule3': { 
+        'condition': lambda person: person['credit_score'] >= 650, 
+        'result': 'You have a good credit group.' 
+    }, 
+    'rule4': { 
+        'condition': lambda person: person['employment_status'] == 'employed', 
+        'result': 'You are employed.' 
+    } 
+} 
+ 
+# Inference Engine 
+def evaluate_rules(person): 
+    print("Loan Evaluation Results:") 
+    for rule_name, rule in knowledge_base.items(): 
+        if rule['condition'](person): 
+            print(f"{rule_name}: {rule['result']}") 
+        else: 
+            print(f"{rule_name}: Condition not satisfied.") 
+ 
+# Example person data 
+person = { 
+'age': 25, 
+'income': 40000, 
+'credit_score': 700, 
+'employment_status': 'employed' 
+} 
+# Run the evaluation 
+evaluate_rules(person) 
