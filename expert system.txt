@@ -1,0 +1,49 @@
+# --- Facts (knowledge base) ---
+
+people = {
+    "john": {
+        "age": 25,
+        "income": 40000,
+        "credit_score": 700,
+        "employment_status": "employed"
+    },
+    "alice": {
+        "age": 17,
+        "income": 15000,
+        "credit_score": 600,
+        "employment_status": "unemployed"
+    }
+}
+
+# --- Rules ---
+
+def eligible_for_loan(person):
+    """Rule 1 & 2: Eligible if age >= 18 OR income > 30000"""
+    age = people[person]["age"]
+    income = people[person]["income"]
+    return age >= 18 or income > 30000
+
+
+def good_credit(person):
+    """Rule 3: Good credit group if credit_score >= 650"""
+    score = people[person]["credit_score"]
+    return score >= 650
+
+
+def employed(person):
+    """Rule 4: Employment status check"""
+    return people[person]["employment_status"] == "employed"
+
+
+def loan_candidate(person):
+    """Composite rule: candidate if meets all criteria"""
+    return eligible_for_loan(person) and good_credit(person) and employed(person)
+
+
+# --- Execution / Queries ---
+for name in people:
+    print(f"\nChecking loan eligibility for {name.capitalize()}:")
+    print(f"  Eligible (age/income): {eligible_for_loan(name)}")
+    print(f"  Good credit: {good_credit(name)}")
+    print(f"  Employed: {employed(name)}")
+    print(f"  Loan candidate: {loan_candidate(name)}")
